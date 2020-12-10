@@ -8,14 +8,12 @@ const args = process.argv.slice(2);
 
 let toIndex = 1;
 let from = args[0];
-let dotName;
 if (from === "--only-dot-name") {
   from = args[1];
   toIndex ++;
-  try {dotName = fs.readFileSync('.name').toString().trim(); } catch (e) {}
-  if (dotName !== from) {
+  if (!fs.existsSync(".name")) {
     process.exit();
-  }
+  } 
 }
 
 const to = args[toIndex] || path.basename(process.cwd());
@@ -23,6 +21,10 @@ const to = args[toIndex] || path.basename(process.cwd());
 if (!from || !to) {
   console.error("change-name <from> [<to>]\n 'to' defaults to current dir");
   process.exit(1);
+}
+
+if (from === to) {
+  process.exit();
 }
 
 console.log(`renaming from "${from}" to "${to}" ...`);
@@ -90,6 +92,11 @@ for (const file of files) {
 
   const dirName = path.dirname(file.path);
   const fileName = path.basename(file.path);
+
+  if (fileName === '.name') {
+    fs.unlinkSync(file.path);
+    continue;
+  }
 
   const newPath = path.normalize(path.join(dirName,transform(fileName)));
 
