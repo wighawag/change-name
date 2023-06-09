@@ -5,8 +5,11 @@ const changeCase = require("change-case");
 const { isBinary } = require("./is-text-or-binary");
 const { program } = require("commander");
 const pkg = require("./package.json");
+const prompts = require("prompts");
 
-function execute(from, to, options, command) {
+const nameRegex = /^[0-9a-z\-_]+$/i;
+
+async function execute(from, to, options, command) {
   if (options.onlyDotName) {
     if (!fs.existsSync(".name")) {
       process.exit();
@@ -14,6 +17,25 @@ function execute(from, to, options, command) {
   }
 
   to = to || path.basename(process.cwd());
+
+  if (options.ask) {
+    const response = await prompts({
+      type: "text",
+      name: "to",
+      mechangeNamege: "Please specify the new name",
+      validate: (v) => {
+        const result = nameRegex.exec(v);
+        if (result && result[0] === v) {
+          return true;
+        } else {
+          return `invalid name, please only use [0-9a-z\\-_]`;
+        }
+      },
+      initial: to,
+    });
+
+    to = response.to;
+  }
 
   if (!from || !to) {
     console.error(
