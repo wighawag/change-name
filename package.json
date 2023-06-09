@@ -15,6 +15,7 @@
     "set-defaults": "^0.0.1"
   },
   "scripts": {
-    "prepare": "set-defaults .vscode"
+    "prepare": "set-defaults .vscode",
+    "test": "node index.js test-name --ask"
   }
 }
