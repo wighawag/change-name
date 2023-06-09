@@ -19,7 +19,7 @@ if (from === "--only-dot-name") {
 const to = args[toIndex] || path.basename(process.cwd());
 
 if (!from || !to) {
-  console.error("change-name <from> [<to>]\n 'to' defaults to current dir");
+  console.error("change-name <from> [<to>]\n Note: 'to' defaults to current dir");
   process.exit(1);
 }
 

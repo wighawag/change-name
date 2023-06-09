@@ -1,6 +1,6 @@
 {
   "name": "change-name",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "replace names in a folder",
   "bin": {
     "change-name": "index.js"
