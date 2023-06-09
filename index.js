@@ -7,9 +7,6 @@ const { program } = require("commander");
 const pkg = require("./package.json");
 
 function execute(from, to, options, command) {
-  console.log(options);
-  // const from = options.from;
-
   if (options.onlyDotName) {
     if (!fs.existsSync(".name")) {
       process.exit();
@@ -19,7 +16,6 @@ function execute(from, to, options, command) {
   to = to || path.basename(process.cwd());
 
   if (!from || !to) {
-    console.log({ from, to });
     console.error(
       "change-name <from> [to]\n Note: 'to' defaults to current dir"
     );
